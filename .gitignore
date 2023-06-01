@@ -1,0 +1,19 @@
+# Editors
+.idea/
+.vscode/
+
+# Mac/OSX
+.DS_Store
+
+# Environments
+venv/
+config/.env
+
+# Files
+files/
+
+# Token
+o365_token.txt
+
+# Cache
+__pycache__
