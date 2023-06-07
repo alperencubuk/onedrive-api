@@ -43,10 +43,10 @@ localhost:8000/docs
 ### Endpoints:
 
 ```http request
-GET  /onedrive/auth                  # onedrive auth
+GET  /onedrive/auth/{user_id}        # onedrive auth
 GET  /onedrive/callback              # callback url
-GET  /onedrive/list                  # get file list
-GET  /onedrive/download              # download all files
+GET  /onedrive/list/{user_id}        # get file list
+GET  /onedrive/download/{user_id}    # download all files
 
 GET  /                               # health check
 ```

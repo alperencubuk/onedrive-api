@@ -8,25 +8,30 @@ from source.core.settings import settings
 
 
 class OneDriveStorage:
-    def __init__(self):
+    def __init__(self, user_id: str):
         self.client_id = settings.CLIENT_ID
         self.client_secret = settings.CLIENT_SECRET
         self.callback = settings.CALLBACK_URL
         self.token_backend = FileSystemTokenBackend(
-            token_path=".", token_filename="o365_token.txt"
+            token_path="tokens", token_filename=f"{user_id}_token.txt"
         )
         self.account = Account(
             credentials=(self.client_id, self.client_secret),
             token_backend=self.token_backend,
         )
-        self.state = None
+        self.state = user_id
 
     def get_auth_url(self) -> str:
-        url, self.state = self.account.con.get_authorization_url(
-            requested_scopes=["User.Read", "Files.Read.All", "offline_access"],
+        self.account.con.session = oauth = self.account.con.get_session(
             redirect_uri=self.callback,
+            scopes=["User.Read", "Files.Read.All", "offline_access"],
         )
-        return url
+        auth_url, state = oauth.authorization_url(
+            url=self.account.con._oauth2_authorize_url,
+            state=self.state,
+            access_type="offline",
+        )
+        return auth_url
 
     def authenticate(self, requested_url) -> bool:
         return self.account.con.request_token(
@@ -51,7 +56,7 @@ class OneDriveStorage:
 
     def download_all(self) -> None:
         download_path = path.abspath(
-            path.join(path.dirname(__file__), "../../..", "files")
+            path.join(path.dirname(__file__), "../../..", "files", self.state)
         )
         makedirs(download_path, exist_ok=True)
         drive = self.account.storage().get_default_drive()

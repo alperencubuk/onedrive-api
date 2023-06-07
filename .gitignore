@@ -12,8 +12,8 @@ config/.env
 # Files
 files/
 
-# Token
-o365_token.txt
+# Tokens
+tokens/
 
 # Cache
 __pycache__
