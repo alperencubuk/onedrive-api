@@ -43,6 +43,12 @@ class OneDriveStorage:
             return True
         return False
 
+    def get_account_info(self) -> dict:
+        return {
+            "name": self.account.get_current_user().display_name,
+            "mail": self.account.get_current_user().mail,
+        }
+
     def get_file_list(self) -> dict:
         drive = self.account.storage().get_default_drive()
         items = []

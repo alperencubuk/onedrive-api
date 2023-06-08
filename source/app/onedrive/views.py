@@ -24,6 +24,14 @@ async def callback(state: str, request: Request) -> dict:
     return {"auth": False}
 
 
+@onedrive_router.get("/account/{user_id}")
+async def account_info(user_id: str) -> dict:
+    storage = OneDriveStorage(user_id=user_id)
+    if storage.check_connection():
+        return storage.get_account_info()
+    return {"error": "Authentication failed"}
+
+
 @onedrive_router.get("/list/{user_id}")
 async def list_items(user_id: str) -> dict:
     storage = OneDriveStorage(user_id=user_id)

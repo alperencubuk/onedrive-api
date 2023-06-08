@@ -45,6 +45,7 @@ localhost:8000/docs
 ```http request
 GET  /onedrive/auth/{user_id}        # onedrive auth
 GET  /onedrive/callback              # callback url
+GET  /onedrive/account/{user_id}     # get account info
 GET  /onedrive/list/{user_id}        # get file list
 GET  /onedrive/download/{user_id}    # download all files
 
